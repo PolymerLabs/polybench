@@ -1,0 +1,98 @@
+<!doctype html>
+<body>
+<template id="iconButton">
+	<div>A</div>
+</template>
+
+<template id="focusable">
+  <content></content>
+</template>
+
+<template id="button">
+  <div id="clip">
+    <div id="ripple"></div>
+    <div id="icon"></div>
+  </div>
+</template>
+
+<template id="icon-button">
+	<style>
+
+		div /deep/ #dummy {
+      display: block;
+    }
+
+	</style>
+  <shadow></shadow>
+</template>
+
+<template id="ripple">
+  <div></div>
+</template>
+
+<div id="container">
+</div>
+
+<script>
+	function makeItem() {
+		var div = document.createElement('div');
+		div.appendChild(makeIconButton());
+		return div;
+	}
+
+	function makeIconButton() {
+		var element = document.createElement('div');
+		element.createShadowRoot().appendChild(stamp('focusable'));
+		var button = element.createShadowRoot();
+		button.appendChild(stamp('button'))
+		var ripple = button.querySelector('#ripple');
+		ripple.createShadowRoot().appendChild(stamp('ripple'));
+		var icon = button.querySelector('#icon');
+		icon.appendChild(stamp('iconButton'));
+		element.createShadowRoot().appendChild(stamp('icon-button'));
+		return element;
+	}
+
+	var elements = {};
+	function findElement(id) {
+		return elements[id] || (elements[id] = document.querySelector('#' + id));
+	}
+
+	function stamp(id) {
+		var template = findElement(id);
+		return document.importNode(template.content, true);
+	}
+
+  var container = document.querySelector('#container');
+  function populate(count) {
+    container.textContent = '';
+    for (var i=0; i < count; i++) {
+      container.appendChild(makeItem());
+    }
+  }
+
+	function test() {
+    var count = 400;
+    populate(count);
+    var t1 = Date.now();
+    requestAnimationFrame(function() {
+      t1 = Date.now() - t1;
+      populate(count * 2);
+      var t2 = Date.now();
+      requestAnimationFrame(function() {
+        t2 = Date.now() - t2;
+        populate(count * 4);
+        var t3 = Date.now();
+        requestAnimationFrame(function() {
+          t3 = Date.now() - t3;
+          console.log('run times', t1, t2, t3);
+          console.log('multipliers', t3 / t1, t2 / t1, t3 / t2);
+        });
+      });
+    });
+	}
+
+	addEventListener('load', test);
+
+</script>
+</body>
