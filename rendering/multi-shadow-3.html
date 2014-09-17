@@ -1,7 +1,7 @@
 <!doctype html>
 <body>
 <template id="iconButton">
-	<div>A</div>
+  <div>A</div>
 </template>
 
 <template id="focusable">
@@ -16,13 +16,13 @@
 </template>
 
 <template id="icon-button">
-	<style>
+  <style>
 
-		div /deep/ #dummy {
+    div /deep/ #dummy {
       display: block;
     }
 
-	</style>
+  </style>
   <shadow></shadow>
 </template>
 
@@ -34,34 +34,34 @@
 </div>
 
 <script>
-	function makeItem() {
-		var div = document.createElement('div');
-		div.appendChild(makeIconButton());
-		return div;
-	}
+  function makeItem() {
+    var div = document.createElement('div');
+    div.appendChild(makeIconButton());
+    return div;
+  }
 
-	function makeIconButton() {
-		var element = document.createElement('div');
-		element.createShadowRoot().appendChild(stamp('focusable'));
-		var button = element.createShadowRoot();
-		button.appendChild(stamp('button'))
-		var ripple = button.querySelector('#ripple');
-		ripple.createShadowRoot().appendChild(stamp('ripple'));
-		var icon = button.querySelector('#icon');
-		icon.appendChild(stamp('iconButton'));
-		element.createShadowRoot().appendChild(stamp('icon-button'));
-		return element;
-	}
+  function makeIconButton() {
+    var element = document.createElement('div');
+    element.createShadowRoot().appendChild(stamp('focusable'));
+    var button = element.createShadowRoot();
+    button.appendChild(stamp('button'))
+    var ripple = button.querySelector('#ripple');
+    ripple.createShadowRoot().appendChild(stamp('ripple'));
+    var icon = button.querySelector('#icon');
+    icon.appendChild(stamp('iconButton'));
+    element.createShadowRoot().appendChild(stamp('icon-button'));
+    return element;
+  }
 
-	var elements = {};
-	function findElement(id) {
-		return elements[id] || (elements[id] = document.querySelector('#' + id));
-	}
+  var elements = {};
+  function findElement(id) {
+    return elements[id] || (elements[id] = document.querySelector('#' + id));
+  }
 
-	function stamp(id) {
-		var template = findElement(id);
-		return document.importNode(template.content, true);
-	}
+  function stamp(id) {
+    var template = findElement(id);
+    return document.importNode(template.content, true);
+  }
 
   var container = document.querySelector('#container');
   function populate(count) {
@@ -71,7 +71,7 @@
     }
   }
 
-	function test() {
+  function test() {
     var count = 400;
     populate(count);
     var t1 = Date.now();
@@ -90,9 +90,9 @@
         });
       });
     });
-	}
+  }
 
-	addEventListener('load', test);
+  addEventListener('load', test);
 
 </script>
 </body>
